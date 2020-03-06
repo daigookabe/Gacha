@@ -1,13 +1,16 @@
 package com.okabe;
 
-import static com.okabe.Gacha.*;
+
+import com.okabe.card.Card;
 
 public class Main {
 
     public static void main(String[] args) {
         // argsエラーチェック
+        final Gacha gacha = new Gacha();
+
         try {
-            boolean argsCheck = isError(args);
+            boolean argsCheck = gacha.isError(args);
             if (argsCheck) {
                 return;
             }
@@ -19,6 +22,10 @@ public class Main {
         int normalCount = Integer.parseInt(args[0]);
         int specialCount = Integer.parseInt(args[1]);
 
-        doGacha(normalCount, specialCount);
+        gacha.doGacha(normalCount, specialCount);
+
+        final Card card = new Card();
+
+        card.draw();
     }
 }
