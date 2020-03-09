@@ -37,7 +37,6 @@ public class Gacha {
                 System.out.println(itemName);
             }
         }
-        System.out.println("END");
     }
 
     // argsのチェック
