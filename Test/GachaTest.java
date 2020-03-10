@@ -20,4 +20,14 @@ public class GachaTest {
         String outPutLog = out.toString();
         assertThat(outPutLog.substring(outPutLog.length()-4), is("END" + System.lineSeparator()));
     }
+
+    @Test
+    public void getNormalGachaItemTest() {
+
+        //テスト対象メソッド呼び出し
+        String normalName = Gacha.getNormalGachaItem(1);
+        System.out.println(normalName);
+
+        //todo 期待値を書く
+    }
 }
