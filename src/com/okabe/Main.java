@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String args[]) {
-        System.out.println("どのガチャを引きますか？　1：メダロットガチャ　2：ミニ四駆ガチャ");
+        System.out.println("どのガチャを引きますか？\n1：メダロットガチャ　2：ミニ四駆ガチャ");
 
         Scanner scan = new Scanner(System.in);
 
@@ -23,7 +23,7 @@ public class Main {
         System.out.println("ノーマルチケット ： " + normalCount + "枚");
         System.out.println("スペシャルチケット ： " + specialCount + "枚");
         System.out.println("---------------------------------");
-        System.out.println("でよろしいですか？　はい：1　いいえ：2");
+        System.out.println("でよろしいですか？\n1：はい　2：いいえ");
 
         int judge = scan.nextInt();
 
@@ -33,7 +33,5 @@ public class Main {
         } else {
             Gacha.doGacha(normalCount, specialCount);
         }
-
-        System.out.println("END");
     }
 }
