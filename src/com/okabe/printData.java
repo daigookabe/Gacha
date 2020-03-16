@@ -7,25 +7,40 @@ public class printData {
         String gachaName;
         if(gachaNumber == 1) {
             gachaName = "メダロットガチャ";
-        } else {
+        } else if(gachaNumber == 2){
             gachaName = "ミニ四駆ガチャ";
+        } else {
+            gachaName = "";
         }
 
         return gachaName;
     }
 
+    public static String ticketJudgment(int normalRound, int specialRound) {
+        String ticketJudgment;
 
-    //todo レアリティの実装
-    public static void rarityResult(int rarityNumber) {
-        String[] rarity = {"★★★★", "★★★", "★★★", "★"};
+        if(normalRound > 0) {
+            ticketJudgment = "通常確率";
+        } else if(specialRound > 0) {
+            ticketJudgment = "⭐️スペシャルオッズ⭐️";
+        } else {
+            ticketJudgment = "";
+        }
 
-        System.out.println(rarity[rarityNumber]);
+        return ticketJudgment;
     }
 
-    //todo　アイテム名の実装
-    public static void medalotItemResult(int itemNumber) {
-        String[] itemName = {"メダロット一式", "メダロットパーツ"};
+    public static int normalGachaCountNumber(int normalRound) {
+        int normalGachaCountNumber;
 
-        System.out.println(itemName[itemNumber]);
+        normalGachaCountNumber = normalRound;
+        return normalGachaCountNumber;
+    }
+
+    public static int specialGachaCountNumber(int SpecialRound) {
+        int specialGachaCountNumber;
+
+        specialGachaCountNumber = SpecialRound;
+        return specialGachaCountNumber;
     }
 }
