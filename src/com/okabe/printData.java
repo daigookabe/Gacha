@@ -16,12 +16,12 @@ public class printData {
         return gachaName;
     }
 
-    public static String ticketJudgment(int normalRound, int specialRound) {
+    public static String ticketJudgment(int gachaType) {
         String ticketJudgment;
 
-        if(normalRound > 0) {
+        if(gachaType == 1) {
             ticketJudgment = "通常確率";
-        } else if(specialRound > 0) {
+        } else if(gachaType == 2) {
             ticketJudgment = "⭐️スペシャルオッズ⭐️";
         } else {
             ticketJudgment = "";

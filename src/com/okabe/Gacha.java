@@ -12,36 +12,38 @@ public class Gacha {
 
     public static void doGacha (int normalTicketCount, int specialTicketCount) throws IOException {
         // ノーマルチケットを使った場合
+        int gachaType = NORMAL_GACHA_TYPE;
         System.out.println("------ノーマルチケット結果------");
-        int ticketCount = normalTicketCount;
 
-        if (ticketCount == 0){
+        if (normalTicketCount == 0){
             System.out.println("チケットを使用していません");
         } else {
             for (int round = 1; round <= normalTicketCount; round++){
                 if (round % 10 == 0) {
-                    String itemName = getSpecialGachaItem(round);
+                    gachaType = SPECIAL_GACHA_TYPE;
+                    String itemName = getGachaItem(round, gachaType);
                     System.out.println(itemName);
+                    gachaType = NORMAL_GACHA_TYPE;
                     if (round == normalTicketCount) {
                         break;
                     }
                 } else {
                     String itemName;
-                    itemName = getNormalGachaItem(round);
+                    itemName = getGachaItem(round, gachaType);
                     System.out.println(itemName);
                 }
             }
         }
 
         // スペシャルチケットを使った場合
+        gachaType = SPECIAL_GACHA_TYPE;
         System.out.println("\n------スペシャルチケット結果------");
-        ticketCount = normalTicketCount;
 
-        if (ticketCount == 0){
+        if (specialTicketCount == 0){
             System.out.println("チケットを使用していません");
         } else {
             for (int round = 1; round <= specialTicketCount; round++){
-                String itemName = getSpecialGachaItem(round);
+                String itemName = getGachaItem(round, gachaType);
                 System.out.println(itemName);
             }
         }
@@ -78,10 +80,9 @@ public class Gacha {
 //        return argsCheck;
 //    }
 
-    // ノーマルガチャのオッズ
-    public static String getNormalGachaItem(int round) throws IOException {
-        System.out.print("【" + printData.normalGachaCountNumber(round) + "連目】　");
-        System.out.println(printData.ticketJudgment(round, 0));
+    // ガチャ抽選
+    public static String getGachaItem(int round, int gachaType) throws IOException {
+        System.out.println("【" + printData.normalGachaCountNumber(round) + "連目】　" + printData.ticketJudgment(gachaType));
 
         //ファイル読み込みで使用する３つのクラス
         FileInputStream fileInputStream = null;
@@ -112,7 +113,7 @@ public class Gacha {
                 //カンマで分割した内容を配列に格納する
                 String[] rarityColumns = line.split(",");
 
-                if(rowNumber == 0 || Integer.parseInt(rarityColumns[1]) != NORMAL_GACHA_TYPE) {
+                if(rowNumber == 0 || Integer.parseInt(rarityColumns[1]) != gachaType) {
                     rowNumber++;
                     continue;
                 }
@@ -135,61 +136,60 @@ public class Gacha {
         return itemName;
     }
 
-    // スペシャルガチャのオッズ
-    public static String getSpecialGachaItem(int round) throws IOException {
-        System.out.print("【" + printData.specialGachaCountNumber(round) + "連目】　");
-        System.out.println(printData.ticketJudgment(0, round));
-
-        //ファイル読み込みで使用する３つのクラス
-        FileInputStream fileInputStream = null;
-        InputStreamReader inputStreamReader = null;
-        BufferedReader bufferedReader = null;
-
-        String itemName = null;
-
-        try {
-            //読み込みファイルのインスタンス生成
-            //ファイル名を指定する
-            fileInputStream = new FileInputStream("rarity.csv");
-            inputStreamReader = new InputStreamReader(fileInputStream);
-            bufferedReader = new BufferedReader(inputStreamReader);
-
-
-            //ランダムの生成
-            int rand = random.nextInt(99);
-
-            //1行分のデータ
-            String line;
-
-            //読み込み行数の初期化
-            int rowNumber = 0;
-
-            //1行ずつ読み込みを行う
-            while ((line = bufferedReader.readLine()) != null) {
-                //カンマで分割した内容を配列に格納する
-                String[] rarityColumns = line.split(",");
-
-                if(rowNumber == 0 || Integer.parseInt(rarityColumns[1]) != SPECIAL_GACHA_TYPE) {
-                    rowNumber++;
-                    continue;
-                }
-
-                if (rand < Integer.parseInt(rarityColumns[4])) {
-                    itemName = rarityColumns[2];
-                    break;
-                }
-                rowNumber++;
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        } finally {
-            try {
-                bufferedReader.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return itemName;
-    }
+//    // スペシャルガチャのオッズ
+//    public static String getSpecialGachaItem(int round, int gachaType) throws IOException {
+//        System.out.println("【" + printData.specialGachaCountNumber(round) + "連目】　" + printData.ticketJudgment(gachaType));
+//
+//        //ファイル読み込みで使用する３つのクラス
+//        FileInputStream fileInputStream = null;
+//        InputStreamReader inputStreamReader = null;
+//        BufferedReader bufferedReader = null;
+//
+//        String itemName = null;
+//
+//        try {
+//            //読み込みファイルのインスタンス生成
+//            //ファイル名を指定する
+//            fileInputStream = new FileInputStream("rarity.csv");
+//            inputStreamReader = new InputStreamReader(fileInputStream);
+//            bufferedReader = new BufferedReader(inputStreamReader);
+//
+//
+//            //ランダムの生成
+//            int rand = random.nextInt(99);
+//
+//            //1行分のデータ
+//            String line;
+//
+//            //読み込み行数の初期化
+//            int rowNumber = 0;
+//
+//            //1行ずつ読み込みを行う
+//            while ((line = bufferedReader.readLine()) != null) {
+//                //カンマで分割した内容を配列に格納する
+//                String[] rarityColumns = line.split(",");
+//
+//                if(rowNumber == 0 || Integer.parseInt(rarityColumns[1]) != SPECIAL_GACHA_TYPE) {
+//                    rowNumber++;
+//                    continue;
+//                }
+//
+//                if (rand < Integer.parseInt(rarityColumns[4])) {
+//                    itemName = rarityColumns[2];
+//                    break;
+//                }
+//                rowNumber++;
+//            }
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        } finally {
+//            try {
+//                bufferedReader.close();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return itemName;
+//    }
 }
 
