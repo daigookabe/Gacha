@@ -1,9 +1,10 @@
 package com.okabe;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException {
         System.out.println("どのガチャを引きますか？\n1：メダロットガチャ　2：ミニ四駆ガチャ");
 
         Scanner scan = new Scanner(System.in);
@@ -30,6 +31,8 @@ public class Main {
         if(judge == 2) {
             System.out.println("処理を中止します");
             System.exit(0);
+        } else if (judge != 1 || judge != 2) {
+            System.out.println("!!!値が不正です!!!");
         } else {
             Gacha.doGacha(normalCount, specialCount);
         }
