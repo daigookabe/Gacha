@@ -1,10 +1,7 @@
 package com.okabe;
 
-import com.okabe.data.Rarity;
-
 import java.io.*;
 import java.util.Random;
-import java.util.SplittableRandom;
 
 public class Gacha {
     static long seed = System.currentTimeMillis() + Runtime.getRuntime().freeMemory();
@@ -16,19 +13,21 @@ public class Gacha {
     public static void doGacha (int normalTicketCount, int specialTicketCount) throws IOException {
         // ノーマルチケットを使った場合
         System.out.println("------ノーマルチケット結果------");
-        if (normalTicketCount == 0){
+        int ticketCount = normalTicketCount;
+
+        if (ticketCount == 0){
             System.out.println("チケットを使用していません");
         } else {
-            for (int normalRound = 1; normalRound <= normalTicketCount; normalRound++){
-                if (normalRound % 10 == 0) {
-                    String itemName = getSpecialGachaItem(normalRound);
+            for (int round = 1; round <= normalTicketCount; round++){
+                if (round % 10 == 0) {
+                    String itemName = getSpecialGachaItem(round);
                     System.out.println(itemName);
-                    if (normalRound == normalTicketCount) {
+                    if (round == normalTicketCount) {
                         break;
                     }
                 } else {
                     String itemName;
-                    itemName = getNormalGachaItem(normalRound);
+                    itemName = getNormalGachaItem(round);
                     System.out.println(itemName);
                 }
             }
@@ -36,11 +35,13 @@ public class Gacha {
 
         // スペシャルチケットを使った場合
         System.out.println("\n------スペシャルチケット結果------");
-        if (specialTicketCount == 0){
+        ticketCount = normalTicketCount;
+
+        if (ticketCount == 0){
             System.out.println("チケットを使用していません");
         } else {
-            for (int specialRound = 1; specialRound <= specialTicketCount; specialRound++){
-                String itemName = getSpecialGachaItem(specialRound);
+            for (int round = 1; round <= specialTicketCount; round++){
+                String itemName = getSpecialGachaItem(round);
                 System.out.println(itemName);
             }
         }
@@ -48,38 +49,39 @@ public class Gacha {
         System.out.println("\nEND");
     }
 
-    // argsのチェック
-    public static boolean isError(String[] args) {
-        boolean argsCheck = false;
-        String argsCheckResult = "";
-
-        // argsの長さチェック
-        if (args.length == 0) {
-            argsCheckResult = "!!引数を設定してください!!";
-        } else if (args.length == 1) {
-            argsCheckResult = "!!引数が少ないです!!";
-        } else if (args.length >= 3) {
-            argsCheckResult = "!!引数が多いです!!";
-        }
-
-        // 有効値チェック
-        if (0 == Integer.parseInt(args[0]) + Integer.parseInt(args[1])) {
-            argsCheckResult = "!!引数に1以上を設定してください!!";
-        }
-
-        // TODO 範囲チェック実装
-
-        if (argsCheckResult.length() != 0) {
-            throw new IllegalArgumentException(argsCheckResult);
-        }
-
-        System.out.println(argsCheckResult);
-        return argsCheck;
-    }
+//    // argsのチェック
+//    public static boolean isError(String[] args) {
+//        boolean argsCheck = false;
+//        String argsCheckResult = "";
+//
+//        // argsの長さチェック
+//        if (args.length == 0) {
+//            argsCheckResult = "!!引数を設定してください!!";
+//        } else if (args.length == 1) {
+//            argsCheckResult = "!!引数が少ないです!!";
+//        } else if (args.length >= 3) {
+//            argsCheckResult = "!!引数が多いです!!";
+//        }
+//
+//        // 有効値チェック
+//        if (0 == Integer.parseInt(args[0]) + Integer.parseInt(args[1])) {
+//            argsCheckResult = "!!引数に1以上を設定してください!!";
+//        }
+//
+//        // TODO 範囲チェック実装
+//
+//        if (argsCheckResult.length() != 0) {
+//            throw new IllegalArgumentException(argsCheckResult);
+//        }
+//
+//        System.out.println(argsCheckResult);
+//        return argsCheck;
+//    }
 
     // ノーマルガチャのオッズ
-    public static String getNormalGachaItem(int normalRound) throws IOException {
-        System.out.println("【" + normalRound + "連目】　(通常確率)");
+    public static String getNormalGachaItem(int round) throws IOException {
+        System.out.print("【" + printData.normalGachaCountNumber(round) + "連目】　");
+        System.out.println(printData.ticketJudgment(round, 0));
 
         //ファイル読み込みで使用する３つのクラス
         FileInputStream fileInputStream = null;
@@ -122,7 +124,6 @@ public class Gacha {
                 rowNumber++;
             }
         } catch (Exception e) {
-            // todo:エラー処理は後でやる
             System.out.println(e.getMessage());
         } finally {
             try {
@@ -134,20 +135,10 @@ public class Gacha {
         return itemName;
     }
 
-//    // スペシャルガチャのオッズ
-//    public static String getSpecialGachaItem(int specialRound) {
-//        int rand = random.nextInt(99);
-//        System.out.println("【" + specialRound + "連目】　(⭐️スペシャルオッズ⭐️)");
-//
-//        if (rand <= 19) {
-//            return "★★★　メダロット一式";
-//        }
-//        return "★★★　メダロットパーツ";
-//    }
-
     // スペシャルガチャのオッズ
-    public static String getSpecialGachaItem(int specialRound) throws IOException {
-        System.out.println("【" + specialRound + "連目】　(⭐️スペシャルオッズ⭐️)");
+    public static String getSpecialGachaItem(int round) throws IOException {
+        System.out.print("【" + printData.specialGachaCountNumber(round) + "連目】　");
+        System.out.println(printData.ticketJudgment(0, round));
 
         //ファイル読み込みで使用する３つのクラス
         FileInputStream fileInputStream = null;
@@ -190,7 +181,6 @@ public class Gacha {
                 rowNumber++;
             }
         } catch (Exception e) {
-            // todo:エラー処理は後でやる
             System.out.println(e.getMessage());
         } finally {
             try {
