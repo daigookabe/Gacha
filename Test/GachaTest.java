@@ -25,32 +25,17 @@ public class GachaTest {
     }
 
     @Test
-    public void getNormalGachaItemTest() {
-        String normalName = null;
+    public void getGachaItemTest() {
+        String itemName = null;
 
         try {
-            normalName = Gacha.getGachaItem(50, 1);
+            itemName = Gacha.getGachaItem(1);
         } catch (Exception e) {
-            System.out.println("getGachaItemでエラー");
+            System.out.println(e.getMessage());
         }
         //テスト対象メソッド呼び出し
-        System.out.println(normalName);
+        System.out.println(itemName);
 
         //todo 期待値を書く
     }
-
-//    @Test
-//    public void getSpecialGachaItemTest() {
-//        String normalName = null;
-//
-//        try {
-//            normalName = Gacha.getSpecialGachaItem(50, 2);
-//        } catch (Exception e) {
-//            System.out.println("getSpecialGachaItemでエラー");
-//        }
-//        //テスト対象メソッド呼び出し
-//        System.out.println(normalName);
-//
-//        //todo 期待値を書く
-//    }
 }
