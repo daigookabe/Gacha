@@ -20,7 +20,7 @@ public class Main {
         int specialCount = scan.nextInt();
 
         System.out.println("---------------------------------");
-        System.out.println("引くガチャ ： " + printData.gachaSelect(gachaNumber));
+        System.out.println("引くガチャ ： " + GachaView.gachaSelect(gachaNumber));
         System.out.println("ノーマルチケット ： " + normalCount + "枚");
         System.out.println("スペシャルチケット ： " + specialCount + "枚");
         System.out.println("---------------------------------");
