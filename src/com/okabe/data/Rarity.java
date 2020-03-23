@@ -7,13 +7,14 @@ public class Rarity {
     private int odds;
     private int sumOdds;
 
+    public Rarity() {}
+
     public Rarity(int id, int ticketType, String itemName, int odds, int sumOdds) {
         this.id = id;
         this.gachaType = ticketType;
         this.itemName = itemName;
         this.odds = odds;
         this.sumOdds = sumOdds;
-
     }
 
     public int getId() { return id; }

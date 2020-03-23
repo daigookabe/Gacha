@@ -16,7 +16,6 @@ public class Gacha {
     static InputStreamReader inputStreamReader = null;
     static BufferedReader bufferedReader = null;
     static List<Rarity> rarityArray = null;
-    static Rarity rarity = null;
 
     public static void doGacha (int normalTicketCount, int specialTicketCount) throws IOException {
         //読み込みファイルのインスタンス生成
@@ -28,8 +27,6 @@ public class Gacha {
         //1行分のデータ
         String line;
 
-
-
         //rarity.csvをparseする
         rarityArray = new ArrayList<Rarity>();
 
@@ -40,7 +37,7 @@ public class Gacha {
         while ((line = bufferedReader.readLine()) != null) {
 
             //Rarityクラスをインスタンス化
-            Rarity rarity = new Rarity(0, 0, null, 0, 0);
+            Rarity rarity = new Rarity();
 
             if (rowNumber == 0) {
                 rowNumber++;
