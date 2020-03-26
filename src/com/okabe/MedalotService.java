@@ -2,25 +2,20 @@ package com.okabe;
 
 import com.okabe.data.Rarity;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
-public class Gacha {
-    static long seed = System.currentTimeMillis() + Runtime.getRuntime().freeMemory();
-    static Random random = new Random(seed);
+public class MedalotService extends GachaService {
 
-    //ファイル読み込みで使用する３つのクラス
-    static FileInputStream fileInputStream = null;
-    static InputStreamReader inputStreamReader = null;
-    static BufferedReader bufferedReader = null;
-    static List<Rarity> rarityArray = null;
+    public MedalotService(){};
 
-    public static void doGacha (int normalTicketCount, int specialTicketCount) throws IOException {
+    @Override
+    public void doGacha(int gachaNumber, int normalTicketCount, int specialTicketCount, int count) throws IOException{
         //読み込みファイルのインスタンス生成
-        //ファイル名を指定する
-        fileInputStream = new FileInputStream("rarity.csv");
+        fileInputStream = new FileInputStream("gacha_medalot.csv");
         inputStreamReader = new InputStreamReader(fileInputStream);
         bufferedReader = new BufferedReader(inputStreamReader);
 
@@ -39,6 +34,7 @@ public class Gacha {
             //Rarityクラスをインスタンス化
             Rarity rarity = new Rarity();
 
+            // 一行目はカラム名が入っているので飛ばす
             if (rowNumber == 0) {
                 rowNumber++;
                 continue;
@@ -67,11 +63,6 @@ public class Gacha {
                 rowNumber++;
             }
         }
-
-//        for (Rarity rare : rarityArray) {
-//            Rarity rarityArrayExtraction = rarityArray.get(0);
-//            System.out.println(rarityArrayExtraction.getItemName() + "!!!");
-//        }
 
         String itemName;
 
@@ -137,23 +128,18 @@ public class Gacha {
         //アイテム名の初期化
         String itemName = "test";
 
-        //読み込み行数の初期化
-        int rowNumber = 0;
-
-        //Rarity rarityFromCsv = null;
-
+        // 配列rarityArrayのガチャタイプと入力されたガチャタイプが一致しているか検証
         for (Rarity rarityFromCsv : rarityArray) {
+            // 一致していなければ再検証
             if (rarityFromCsv.getGachaType() != gachaType) {
-                rowNumber++;
                 continue;
             }
+            // 一致していればitemNameにrarityArrayのアイテムをセットする
             if (rand < rarityFromCsv.getSumOdds()) {
                 itemName = rarityFromCsv.getItemName();
                 break;
             }
-            rowNumber++;
         }
         return itemName;
     }
 }
-
