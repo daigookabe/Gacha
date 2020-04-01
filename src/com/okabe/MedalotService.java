@@ -1,7 +1,6 @@
 package com.okabe;
 
 import com.okabe.data.Rarity;
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,10 +11,12 @@ public class MedalotService extends GachaService {
 
     public MedalotService(){};
 
+    String csvName = "gacha_medalot.csv";
+
     @Override
     public void doGacha(int gachaNumber, int normalTicketCount, int specialTicketCount, int count) throws IOException{
         //読み込みファイルのインスタンス生成
-        fileInputStream = new FileInputStream("gacha_medalot.csv");
+        fileInputStream = new FileInputStream(csvName);
         inputStreamReader = new InputStreamReader(fileInputStream);
         bufferedReader = new BufferedReader(inputStreamReader);
 
